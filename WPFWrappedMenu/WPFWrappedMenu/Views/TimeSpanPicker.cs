@@ -1,4 +1,7 @@
-﻿using System;
+﻿// TODO: 多分 TimeSlot が適切
+// TODO: 初期の TimeSlot を外部から与えることはあるか
+
+using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
