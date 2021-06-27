@@ -41,7 +41,20 @@
                                            Margin="3,0,0,0" VerticalAlignment="Center" IsHitTestVisible="False" />
                             </Grid>
 
-                            <Button x:Name="PART_popupButton" Content="&#xEB0F;" FontFamily="Segoe MDL2 Assets" Padding="4,0">
+                            <Button x:Name="PART_popupButton" Padding="4,3">
+                                <Button.Content>
+                                    <Viewbox>
+                                        <Canvas Width="605" Height="605">
+                                            <Canvas.RenderTransform>
+                                                <MatrixTransform Matrix="1.333333333,0,0,1.333333333,0,0"/>
+                                            </Canvas.RenderTransform>
+                                            <Canvas Clip="M 0,0 L 453.48,0 L 453.48,453.48 L 0,453.48 Z ">
+                                                <Path Data="M 226.98,27.934 L 206.63,28.961 C 106.26,39.155 27.934,123.92 27.934,226.98 C 27.934,330.04 106.26,414.81 206.63,425 L 226.98,426.03 L 226.98,229.08 Z M 226.98,0 C 352.34,0 453.96,101.62 453.96,226.98 C 453.96,352.34 352.34,453.96 226.98,453.96 C 101.62,453.96 0,352.34 0,226.98 C 0,101.62 101.62,0 226.98,0 Z "
+                                                      Fill="{Binding Foreground, RelativeSource={RelativeSource FindAncestor, AncestorType=Button}}" />
+                                            </Canvas>
+                                        </Canvas>
+                                    </Viewbox>
+                                </Button.Content>
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Click">
                                         <action:SetProperty PropertyName="IsOpen" Value="True" TargetObject="{Binding ElementName=PART_popup}" />
