@@ -111,6 +111,8 @@ namespace WPFWrappedMenu.ViewModels
 
                     // ポップアップを閉じる
                     PopupOpen = false;
+
+                    // TODO: 選択(指定)できない条件はあるか
                 });
 
             List<TimeViewModel> timeSpans = new List<TimeViewModel>();
