@@ -37,7 +37,19 @@ namespace WPFWrappedMenu.ViewModels
             }
             set
             {
-                if(SetProperty(ref _selectedStartTime, value)==true)
+                DateTime? selectedStartTime = value;
+
+                // null でない場合に切り捨て処理を行う
+                if (selectedStartTime is DateTime nonNullSelectedStartTime)
+                {
+                    // 日付情報があれば削除する
+                    nonNullSelectedStartTime = new DateTime().Add(nonNullSelectedStartTime.TimeOfDay);
+
+                    // 30 分単位で切り捨てる
+                    selectedStartTime = nonNullSelectedStartTime.AddTicks(-(nonNullSelectedStartTime.Ticks % TimeSpan.FromMinutes(30).Ticks));
+                }
+
+                if (SetProperty(ref _selectedStartTime, selectedStartTime) == true)
                 {
                     OnPropertyChanged(nameof(SelectedStartTimeString));
                 }
@@ -63,8 +75,7 @@ namespace WPFWrappedMenu.ViewModels
                     return;
                 }
 
-                // TODO: 選択(指定)できない条件はあるか
-
+                // 有意であれば設定
                 ChangeStartTimeCore(parsedDateTime);
             }
         }
@@ -131,11 +142,7 @@ namespace WPFWrappedMenu.ViewModels
 
         private void ChangeStartTimeCore(DateTime specifyDate)
         {
-            // 日付情報があれば削除する
-            specifyDate = new DateTime().Add(specifyDate.TimeOfDay);
-
-            // 30 分単位で切り捨てる
-            SelectedStartTime = specifyDate.AddTicks(-(specifyDate.Ticks % TimeSpan.FromMinutes(30).Ticks));
+            SelectedStartTime = specifyDate;
 
             foreach (object vm in TimeSpans)
             {

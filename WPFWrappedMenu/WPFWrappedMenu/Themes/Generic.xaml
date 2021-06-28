@@ -65,7 +65,7 @@
                                 </i:Interaction.Triggers>
                             </Button>
 
-                            <Popup x:Name="PART_popup" PlacementTarget="{Binding ElementName=PART_popupButton}" Placement="Bottom" StaysOpen="False" IsOpen="{Binding PopupOpen}">
+                            <Popup x:Name="PART_popup" PlacementTarget="{Binding ElementName=PART_popupButton}" Placement="Custom" StaysOpen="False" IsOpen="{Binding PopupOpen}">
 
                                 <Border Background="#C0C0C0">
 

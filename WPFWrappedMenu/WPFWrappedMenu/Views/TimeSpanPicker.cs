@@ -24,15 +24,15 @@ namespace WPFWrappedMenu.Views
             DependencyProperty.Register(nameof(SelectedStartTime), typeof(DateTime?), typeof(TimeSpanPicker), new PropertyMetadata(null));
 
         /// <summary>
-        /// 選択された開始時刻を取得します。
+        /// 選択された開始時刻を取得または設定します。
         /// </summary>
-        public DateTime SelectedStartTime
+        public DateTime? SelectedStartTime
         {
             get
             {
-                return (DateTime)GetValue(SelectedStartTimeProperty);
+                return (DateTime?)GetValue(SelectedStartTimeProperty);
             }
-            internal set
+            set
             {
                 SetValue(SelectedStartTimeProperty, value);
             }
@@ -53,6 +53,12 @@ namespace WPFWrappedMenu.Views
         {
             if (Template.FindName("PART_popup", this) is Popup part_popup)
             {
+                // ポップアップの位置を、起点オブジェクトの右下基準にする
+                part_popup.CustomPopupPlacementCallback += (Size popupSize, Size targetSize, Point offset) =>
+                {
+                    return new CustomPopupPlacement[] { new CustomPopupPlacement() { Point = new Point(targetSize.Width - popupSize.Width, targetSize.Height) } };
+                };
+
                 // ポップアップを開いたときに、ポップアップ内にフォーカスを移動する
                 part_popup.Opened += (sender, e) =>
                 {
