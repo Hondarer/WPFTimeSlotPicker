@@ -21,7 +21,7 @@ namespace WPFWrappedMenu.Views
         /// SelectedStartTime 依存関係プロパティを識別します。このフィールドは読み取り専用です。
         /// </summary>
         public static readonly DependencyProperty SelectedStartTimeProperty =
-            DependencyProperty.Register(nameof(SelectedStartTime), typeof(DateTime), typeof(TimeSpanPicker), new PropertyMetadata(default(DateTime)));
+            DependencyProperty.Register(nameof(SelectedStartTime), typeof(DateTime?), typeof(TimeSpanPicker), new PropertyMetadata(null));
 
         /// <summary>
         /// 選択された開始時刻を取得します。

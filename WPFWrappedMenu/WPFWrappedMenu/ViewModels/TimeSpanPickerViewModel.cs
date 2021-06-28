@@ -26,9 +26,9 @@ namespace WPFWrappedMenu.ViewModels
             }
         }
 
-        private DateTime _selectedStartTime;
+        private DateTime? _selectedStartTime;
 
-        public DateTime SelectedStartTime
+        public DateTime? SelectedStartTime
 
         {
             get
@@ -125,7 +125,8 @@ namespace WPFWrappedMenu.ViewModels
             TimeSpans = timeSpans;
 
             // TODO: 初期選択は何か、空白あるいは?
-            ChangeStartTimeCore(SelectedStartTime);
+            // まずはバインド元にまかせることにした。
+            //ChangeStartTimeCore(SelectedStartTime);
         }
 
         private void ChangeStartTimeCore(DateTime specifyDate)

@@ -2,6 +2,7 @@
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
+using WPFWrappedMenu.Resources;
 
 namespace WPFWrappedMenu.Converters
 {
@@ -10,6 +11,11 @@ namespace WPFWrappedMenu.Converters
         /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if (value == null)
+            {
+                return StringResource.StartTimeNullValueString;
+            }
+
             if (value is not DateTime parsedDateTime)
             {
                 return DependencyProperty.UnsetValue;

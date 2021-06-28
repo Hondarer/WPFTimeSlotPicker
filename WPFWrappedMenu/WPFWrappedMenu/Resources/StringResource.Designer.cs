@@ -61,6 +61,15 @@ namespace WPFWrappedMenu.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to 時間帯を入力.
+        /// </summary>
+        public static string StartTimeNullValueString {
+            get {
+                return ResourceManager.GetString("StartTimeNullValueString", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to HH:mm,HHmm.
         /// </summary>
         public static string StartTimeParseFormats {
