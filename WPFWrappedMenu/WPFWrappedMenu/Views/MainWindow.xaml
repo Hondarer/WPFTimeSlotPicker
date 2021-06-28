@@ -4,13 +4,37 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:view="clr-namespace:WPFWrappedMenu.Views"
+        xmlns:vm="clr-namespace:WPFWrappedMenu.ViewModels"
         FontSize="16"
         UseLayoutRounding="True"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    
     <Grid>
+
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
-            <view:TimeSpanPicker />
+            <view:TimeSlotPicker />
         </StackPanel>
+        
+        <GroupBox Header="Curent time manager" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel>
+                <StackPanel Height="20" Orientation="Horizontal">
+                    <TextBlock Width="200" Height="20" Text="Current time:" />
+                    <TextBox x:Name="dateTime" Width="200" />
+                    <Button Content="SET" Padding="8,0"
+                            Command="{Binding SetCurrentDateTimeCommand, Source={x:Static vm:DateTimeManager.Instance}, Mode=OneWay}"
+                            CommandParameter="{Binding Text, ElementName=dateTime}"/>
+                </StackPanel>
+                <TextBlock Margin="200,0,0,0" HorizontalAlignment="Left" Width="200" Height="20" Text="{Binding CurrentDateTime, Source={x:Static vm:DateTimeManager.Instance}, Mode=OneWay}" />
+            </StackPanel>
+        </GroupBox>
+
     </Grid>
+    
 </Window>

@@ -6,7 +6,7 @@ using WPFWrappedMenu.Resources;
 
 namespace WPFWrappedMenu.Converters
 {
-    public class SelectedStartTimeToTimeSpanConverter : IValueConverter
+    public class TimeToTimeSlotConverter : IValueConverter
     {
         /// <inheritdoc/>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)

@@ -8,18 +8,19 @@
     xmlns:view="clr-namespace:WPFWrappedMenu.Views"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
 
-    <conv:SelectedStartTimeToTimeSpanConverter x:Key="SelectedStartTimeToTimeSpanConverter" />
+    <conv:TimeToTimeSlotConverter x:Key="TimeToTimeSlotConverter" />
+    <conv:SelectedBackgroundConverter x:Key="SelectedBackgroundConverter" />
 
-    <Style TargetType="{x:Type view:TimeSpanPicker}">
-        <Setter Property="SelectedStartTime" Value="{Binding SelectedStartTime, Mode=OneWay}" />
+    <Style TargetType="{x:Type view:TimeSlotPicker}">
+        <Setter Property="SelectedTimeSlotStartTime" Value="{Binding SelectedTimeSlotStartTime, Mode=TwoWay}" />
         <Setter Property="DataContext">
             <Setter.Value>
-                <vm:TimeSpanPickerViewModel />
+                <vm:TimeSlotPickerViewModel />
             </Setter.Value>
         </Setter>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type view:TimeSpanPicker}">
+                <ControlTemplate TargetType="{x:Type view:TimeSlotPicker}">
                     <Border Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}">
@@ -27,7 +28,7 @@
 
                             <Grid>
                                 <TextBox x:Name="PART_selectedStartTimeTextBox" Width="104" Foreground="{x:Null}"
-                                         Text="{Binding SelectedStartTimeString}" VerticalContentAlignment="Center">
+                                         Text="{Binding SelectedTimeSlotStartTimeString}" VerticalContentAlignment="Center">
                                     <i:Interaction.Triggers>
                                         <i:EventTrigger EventName="GotFocus">
                                             <action:SetProperty PropertyName="Visibility" Value="Collapsed" TargetObject="{Binding ElementName=PART_selectedTimeSpan}" />
@@ -40,7 +41,7 @@
                                     </i:Interaction.Triggers>
                                 </TextBox>
                                 <TextBlock x:Name="PART_selectedTimeSpan"
-                                           Text="{Binding SelectedStartTime, Converter={StaticResource SelectedStartTimeToTimeSpanConverter}}"
+                                           Text="{Binding SelectedTimeSlotStartTime, Converter={StaticResource TimeToTimeSlotConverter}}"
                                            Margin="3,0,0,0" VerticalAlignment="Center" IsHitTestVisible="False" />
                             </Grid>
 
@@ -67,37 +68,69 @@
 
                             <Popup x:Name="PART_popup" PlacementTarget="{Binding ElementName=PART_popupButton}" Placement="Custom" StaysOpen="False" IsOpen="{Binding PopupOpen}">
 
+                                <Popup.Resources>
+
+                                    <DataTemplate x:Key="PickButtonTemplate">
+                                        <ToggleButton Content="{Binding SpecifyTimeSlotStartTime, Converter={StaticResource SelectedStartTimeToTimeSpanConverter}}" IsChecked="{Binding IsSelected}"
+                                                              Command="{Binding DataContext.SpecifyTimeCommamnd, RelativeSource={RelativeSource FindAncestor, AncestorType=Popup}}"
+                                                              CommandParameter="{Binding SpecifyTimeSlotStartTime}"
+                                                              Margin="1,8" Padding="4,0">
+                                            <ToggleButton.LayoutTransform>
+                                                <TransformGroup>
+                                                    <RotateTransform Angle="90"/>
+                                                    <ScaleTransform ScaleX="-1"/>
+                                                </TransformGroup>
+                                            </ToggleButton.LayoutTransform>
+                                        </ToggleButton>
+                                    </DataTemplate>
+
+                                    <DataTemplate x:Key="ShortcutButtonTemplate">
+                                        <Button HorizontalContentAlignment="Center" Padding="4" Margin="4"
+                                                Command="{Binding DataContext.SpecifyTimeCommamnd, RelativeSource={RelativeSource FindAncestor, AncestorType=Popup}}"
+                                                CommandParameter="{Binding SpecifyTimeSlotStartTime}"
+                                                Background="{Binding IsSelected, Converter={StaticResource SelectedBackgroundConverter}}">
+                                            <TextBlock Text="{Binding Description}" />
+                                        </Button>
+                                    </DataTemplate>
+
+                                </Popup.Resources>
+
                                 <Border Background="#C0C0C0">
 
-                                    <ItemsControl x:Name="PART_timeSpans" ItemsSource="{Binding TimeSpans}" Margin="4">
-                                        <ItemsControl.ItemTemplate>
-                                            <DataTemplate>
-                                                <ToggleButton Content="{Binding SpecifyTime, Converter={StaticResource SelectedStartTimeToTimeSpanConverter}}" IsChecked="{Binding IsSelected}"
-                                                              Command="{Binding DataContext.SpecifyTimeCommamnd, RelativeSource={RelativeSource FindAncestor, AncestorType=Popup}}"
-                                                              CommandParameter="{Binding SpecifyTime}"
-                                                              Margin="2,8" Padding="4,0">
-                                                    <ToggleButton.LayoutTransform>
-                                                        <TransformGroup>
-                                                            <RotateTransform Angle="90"/>
-                                                            <ScaleTransform ScaleX="-1"/>
-                                                        </TransformGroup>
-                                                    </ToggleButton.LayoutTransform>
-                                                </ToggleButton>
-                                            </DataTemplate>
-                                        </ItemsControl.ItemTemplate>
-                                        <ItemsControl.ItemsPanel>
-                                            <ItemsPanelTemplate>
-                                                <UniformGrid Columns="12">
-                                                    <UniformGrid.LayoutTransform>
-                                                        <TransformGroup>
-                                                            <RotateTransform Angle="-90"/>
-                                                            <ScaleTransform ScaleY="-1"/>
-                                                        </TransformGroup>
-                                                    </UniformGrid.LayoutTransform>
-                                                </UniformGrid>
-                                            </ItemsPanelTemplate>
-                                        </ItemsControl.ItemsPanel>
-                                    </ItemsControl>
+                                    <Grid>
+
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+
+                                        <ItemsControl x:Name="PART_timeSpans" ItemsSource="{Binding TimeSpans}" Margin="4"
+                                                      ItemTemplate="{StaticResource PickButtonTemplate}">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <UniformGrid Columns="12">
+                                                        <UniformGrid.LayoutTransform>
+                                                            <TransformGroup>
+                                                                <RotateTransform Angle="-90"/>
+                                                                <ScaleTransform ScaleY="-1"/>
+                                                            </TransformGroup>
+                                                        </UniformGrid.LayoutTransform>
+                                                    </UniformGrid>
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+
+                                        <ItemsControl ItemsSource="{Binding Shortcuts}" x:Name="PART_shortcutPanel"
+                                                      ItemTemplate="{StaticResource ShortcutButtonTemplate}"
+                                                      Grid.Column="1" Margin="4">
+                                            <ItemsControl.ItemsPanel>
+                                                <ItemsPanelTemplate>
+                                                    <StackPanel />
+                                                </ItemsPanelTemplate>
+                                            </ItemsControl.ItemsPanel>
+                                        </ItemsControl>
+
+                                    </Grid>
 
                                 </Border>
 
