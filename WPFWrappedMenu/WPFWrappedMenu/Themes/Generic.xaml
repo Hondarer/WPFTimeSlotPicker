@@ -71,7 +71,7 @@
                                 <Popup.Resources>
 
                                     <DataTemplate x:Key="PickButtonTemplate">
-                                        <ToggleButton Content="{Binding SpecifyTimeSlotStartTime, Converter={StaticResource SelectedStartTimeToTimeSpanConverter}}" IsChecked="{Binding IsSelected}"
+                                        <ToggleButton Content="{Binding SpecifyTimeSlotStartTime, Converter={StaticResource TimeToTimeSlotConverter}}" IsChecked="{Binding IsSelected}"
                                                               Command="{Binding DataContext.SpecifyTimeCommamnd, RelativeSource={RelativeSource FindAncestor, AncestorType=Popup}}"
                                                               CommandParameter="{Binding SpecifyTimeSlotStartTime}"
                                                               Margin="1,8" Padding="4,0">
