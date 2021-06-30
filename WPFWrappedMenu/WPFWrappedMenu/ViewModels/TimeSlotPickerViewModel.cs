@@ -80,7 +80,7 @@ namespace WPFWrappedMenu.ViewModels
                     CultureInfo.CurrentCulture, DateTimeStyles.None, out DateTime parsedDateTime) == false)
                 {
                     // 無効な値の場合にはソースを更新しない
-                    // View を元の値に戻すために、PropertyChanged を発行する
+                    // View を元の値に戻すために、PropertyChanged イベントを発行する
                     OnPropertyChanged();
                     return;
                 }
@@ -161,7 +161,8 @@ namespace WPFWrappedMenu.ViewModels
                     {
                         specifyTimeSlotStartTime = CurrentTimeSlotStartTime;
                     }
-                    SpecifyTimeSlotCommamnd.Execute(specifyTimeSlotStartTime.AddMinutes(-30));
+                    // 1/1 00:00 からさかのぼることはできない。翌日基準で 30 分さかのぼることで時間帯を算出する。
+                    SpecifyTimeSlotCommamnd.Execute(specifyTimeSlotStartTime.AddDays(1).AddMinutes(-30));
                 },
                 parameter =>
                 {
@@ -169,7 +170,8 @@ namespace WPFWrappedMenu.ViewModels
                     {
                         specifyTimeSlotStartTime = CurrentTimeSlotStartTime;
                     }
-                    return SpecifyTimeSlotCommamnd.CanExecute(specifyTimeSlotStartTime.AddMinutes(-30));
+                    // 1/1 00:00 からさかのぼることはできない。翌日基準で 30 分さかのぼることで時間帯を算出する。
+                    return SpecifyTimeSlotCommamnd.CanExecute(specifyTimeSlotStartTime.AddDays(1).AddMinutes(-30));
                 });
 
             NextTimeSlotCommamnd = new DelegateCommand(
@@ -252,7 +254,8 @@ namespace WPFWrappedMenu.ViewModels
             {
                 new TimeSlotViewModel(){SpecifyTimeSlotStartTime=CurrentTimeSlotStartTime.AddMinutes(30), Description="next of current timeslot" },
                 new TimeSlotViewModel(){SpecifyTimeSlotStartTime=CurrentTimeSlotStartTime, Description="current timeslot" },
-                new TimeSlotViewModel(){SpecifyTimeSlotStartTime=CurrentTimeSlotStartTime.AddMinutes(-30), Description="previous of current timeslot" }
+                // 1/1 00:00 からさかのぼることはできない。翌日基準で 30 分さかのぼることで時間帯を算出する。
+                new TimeSlotViewModel(){SpecifyTimeSlotStartTime=CurrentTimeSlotStartTime.AddDays(1).AddMinutes(-30), Description="previous of current timeslot" }
             };
 
             Shortcuts = shortcuts;
