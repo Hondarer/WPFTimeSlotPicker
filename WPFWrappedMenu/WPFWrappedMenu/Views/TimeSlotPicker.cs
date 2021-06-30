@@ -9,7 +9,7 @@ using WPFWrappedMenu.ViewModels;
 
 namespace WPFWrappedMenu.Views
 {
-    [TemplatePart(Name = "PART_selectedStartTimeTextBox", Type = typeof(TextBox))]
+    [TemplatePart(Name = "PART_selectedTimeSlotStartTimeTextBox", Type = typeof(TextBox))]
     [TemplatePart(Name = "PART_popup", Type = typeof(Popup))]
     [TemplatePart(Name = "PART_timeSpans", Type = typeof(UIElement))]
     public class TimeSlotPicker : Control
@@ -36,6 +36,9 @@ namespace WPFWrappedMenu.Views
                 SetValue(SelectedTimeSlotStartTimeProperty, value);
             }
         }
+
+        // TODO: StartTimeSlotStartTime
+        // TODO: EndTimeSlotStartTime
 
         /// <summary>
         /// UserDefinedTimeSlotStartTime 依存関係プロパティを識別します。このフィールドは読み取り専用です。
@@ -125,7 +128,7 @@ namespace WPFWrappedMenu.Views
                 };
             }
 
-            if (Template.FindName("PART_selectedStartTimeTextBox", this) is TextBox part_selectedStartTimeTextBox)
+            if (Template.FindName("PART_selectedTimeSlotStartTimeTextBox", this) is TextBox part_selectedStartTimeTextBox)
             {
                 #region フォーカスを得たときに全選択する
 

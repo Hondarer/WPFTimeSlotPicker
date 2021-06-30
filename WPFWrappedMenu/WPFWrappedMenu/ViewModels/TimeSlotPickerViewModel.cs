@@ -51,7 +51,6 @@ namespace WPFWrappedMenu.ViewModels
         private DateTime? _selectedTimeSlotStartTime;
 
         public DateTime? SelectedTimeSlotStartTime
-
         {
             get
             {
@@ -89,6 +88,9 @@ namespace WPFWrappedMenu.ViewModels
                 ChangeSelectedTimeSlotCore(parsedDateTime);
             }
         }
+
+        // TODO: StartTimeSlotStartTime
+        // TODO: EndTimeSlotStartTime
 
         private List<TimeSlotViewModel> _timeSpans;
 
