@@ -21,6 +21,11 @@ namespace WPFWrappedMenu.Converters
                 return DependencyProperty.UnsetValue;
             }
 
+            if (parsedDateTime.Hour == 23 && parsedDateTime.Minute == 30)
+            {
+                return $"{parsedDateTime:HH:mm}–24:00";
+            }
+
             return $"{parsedDateTime:HH:mm}–{parsedDateTime.AddMinutes(30):HH:mm}";
         }
 
