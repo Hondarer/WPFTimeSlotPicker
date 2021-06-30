@@ -41,13 +41,7 @@ namespace WPFWrappedMenu.ViewModels
             }
             set
             {
-                // 日付情報があれば削除する
-                DateTime currentTimeSlotStartTime = new DateTime().Add(value.TimeOfDay);
-
-                // 30 分単位で切り捨てる
-                currentTimeSlotStartTime = currentTimeSlotStartTime.AddTicks(-(currentTimeSlotStartTime.Ticks % TimeSpan.FromMinutes(30).Ticks));
-
-                if (SetProperty(ref _currentTimeSlotStartTime, currentTimeSlotStartTime) == true)
+                if (SetProperty(ref _currentTimeSlotStartTime, TruncateDateTime(value)) == true)
                 {
                     RefreshTimeSlotsViewModel();
                 }
@@ -65,19 +59,7 @@ namespace WPFWrappedMenu.ViewModels
             }
             set
             {
-                DateTime? selectedStartTime = value;
-
-                // null でない場合に切り捨て処理を行う
-                if (selectedStartTime is DateTime nonNullSelectedStartTime)
-                {
-                    // 日付情報があれば削除する
-                    nonNullSelectedStartTime = new DateTime().Add(nonNullSelectedStartTime.TimeOfDay);
-
-                    // 30 分単位で切り捨てる
-                    selectedStartTime = nonNullSelectedStartTime.AddTicks(-(nonNullSelectedStartTime.Ticks % TimeSpan.FromMinutes(30).Ticks));
-                }
-
-                if (SetProperty(ref _selectedTimeSlotStartTime, selectedStartTime) == true)
+                if (SetProperty(ref _selectedTimeSlotStartTime, TruncateDateTime(value)) == true)
                 {
                     OnPropertyChanged(nameof(SelectedTimeSlotStartTimeString));
                 }
@@ -150,11 +132,15 @@ namespace WPFWrappedMenu.ViewModels
             }
         }
 
-        public DelegateCommand SpecifyTimeCommamnd { get; }
+        public DelegateCommand SpecifyTimeSlotCommamnd { get; }
+
+        public DelegateCommand PreviousTimeSlotCommamnd { get; }
+
+        public DelegateCommand NextTimeSlotCommamnd { get; }
 
         public TimeSlotPickerViewModel()
         {
-            SpecifyTimeCommamnd = new DelegateCommand(
+            SpecifyTimeSlotCommamnd = new DelegateCommand(
                 parameter =>
                 {
                     if (parameter is DateTime specifyDate)
@@ -168,6 +154,42 @@ namespace WPFWrappedMenu.ViewModels
                     // TODO: 選択(指定)できない条件はあるか
                 });
 
+            PreviousTimeSlotCommamnd = new DelegateCommand(
+                parameter =>
+                {
+                    if (parameter is not DateTime specifyTimeSlotStartTime)
+                    {
+                        specifyTimeSlotStartTime = CurrentTimeSlotStartTime;
+                    }
+                    SpecifyTimeSlotCommamnd.Execute(specifyTimeSlotStartTime.AddMinutes(-30));
+                },
+                parameter =>
+                {
+                    if (parameter is not DateTime specifyTimeSlotStartTime)
+                    {
+                        specifyTimeSlotStartTime = CurrentTimeSlotStartTime;
+                    }
+                    return SpecifyTimeSlotCommamnd.CanExecute(specifyTimeSlotStartTime.AddMinutes(-30));
+                });
+
+            NextTimeSlotCommamnd = new DelegateCommand(
+                parameter =>
+                {
+                    if (parameter is not DateTime specifyTimeSlotStartTime)
+                    {
+                        specifyTimeSlotStartTime = CurrentTimeSlotStartTime;
+                    }
+                    SpecifyTimeSlotCommamnd.Execute(specifyTimeSlotStartTime.AddMinutes(30));
+                },
+                parameter =>
+                {
+                    if (parameter is not DateTime specifyTimeSlotStartTime)
+                    {
+                        specifyTimeSlotStartTime = CurrentTimeSlotStartTime;
+                    }
+                    return SpecifyTimeSlotCommamnd.CanExecute(specifyTimeSlotStartTime.AddMinutes(30));
+                });
+
             List<TimeSlotViewModel> timeSpans = new List<TimeSlotViewModel>();
             for (int i = 0; i < 48; i++)
             {
@@ -178,6 +200,25 @@ namespace WPFWrappedMenu.ViewModels
             TimeSpans = timeSpans;
 
             InvalidateTimeSlot();
+        }
+
+        public DateTime? TruncateDateTime(DateTime? dateTime)
+        {
+            if (dateTime == null)
+            {
+                return null;
+            }
+
+            return TruncateDateTime((DateTime)dateTime);
+        }
+
+        public DateTime TruncateDateTime(DateTime dateTime)
+        {
+            // 日付情報があれば削除する
+            DateTime timeOfDay = new DateTime().Add(dateTime.TimeOfDay);
+
+            // 30 分単位で切り捨てる
+            return timeOfDay.AddTicks(-(timeOfDay.Ticks % TimeSpan.FromMinutes(30).Ticks));
         }
 
         public void CurrentDateTimeChanged(object sender, EventArgs e)

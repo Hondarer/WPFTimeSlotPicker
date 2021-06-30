@@ -17,7 +17,7 @@ namespace WPFWrappedMenu.Views
         #region 依存関係プロパティ
 
         /// <summary>
-        /// SelectedStartTime 依存関係プロパティを識別します。このフィールドは読み取り専用です。
+        /// SelectedTimeSlotStartTime 依存関係プロパティを識別します。このフィールドは読み取り専用です。
         /// </summary>
         public static readonly DependencyProperty SelectedTimeSlotStartTimeProperty =
             DependencyProperty.Register(nameof(SelectedTimeSlotStartTime), typeof(DateTime?), typeof(TimeSlotPicker), new PropertyMetadata(null));

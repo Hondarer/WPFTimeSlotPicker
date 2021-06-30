@@ -27,8 +27,8 @@
                         <StackPanel Orientation="Horizontal" Height="24">
 
                             <Button Padding="4,3"
-                                    Command="{Binding SpecifyTimeCommamnd}"
-                                    CommandParameter="{Binding Shortcuts[0].SpecifyTimeSlotStartTime}">
+                                    Command="{Binding PreviousTimeSlotCommamnd}"
+                                    CommandParameter="{Binding SelectedTimeSlotStartTime}">
                                 <Viewbox>
                                     <Canvas Width="605" Height="605">
                                         <Canvas.RenderTransform>
@@ -63,8 +63,8 @@
                             </Grid>
 
                             <Button Padding="4,3"
-                                    Command="{Binding SpecifyTimeCommamnd}"
-                                    CommandParameter="{Binding Shortcuts[2].SpecifyTimeSlotStartTime}">
+                                    Command="{Binding NextTimeSlotCommamnd}"
+                                    CommandParameter="{Binding SelectedTimeSlotStartTime}">
                                 <Viewbox>
                                     <Canvas Width="605" Height="605">
                                         <Canvas.RenderTransform>
@@ -107,7 +107,7 @@
 
                                     <DataTemplate x:Key="PickButtonTemplate">
                                         <ToggleButton Content="{Binding SpecifyTimeSlotStartTime, Converter={StaticResource TimeToTimeSlotConverter}}" IsChecked="{Binding IsSelected}"
-                                                              Command="{Binding DataContext.SpecifyTimeCommamnd, RelativeSource={RelativeSource FindAncestor, AncestorType=Popup}}"
+                                                              Command="{Binding DataContext.SpecifyTimeSlotCommamnd, RelativeSource={RelativeSource FindAncestor, AncestorType=Popup}}"
                                                               CommandParameter="{Binding SpecifyTimeSlotStartTime}"
                                                               Margin="1,8" Padding="4,0">
                                             <ToggleButton.LayoutTransform>
@@ -121,7 +121,7 @@
 
                                     <DataTemplate x:Key="ShortcutButtonTemplate">
                                         <Button HorizontalContentAlignment="Center" Padding="4" Margin="4"
-                                                Command="{Binding DataContext.SpecifyTimeCommamnd, RelativeSource={RelativeSource FindAncestor, AncestorType=Popup}}"
+                                                Command="{Binding DataContext.SpecifyTimeSlotCommamnd, RelativeSource={RelativeSource FindAncestor, AncestorType=Popup}}"
                                                 CommandParameter="{Binding SpecifyTimeSlotStartTime}"
                                                 Background="{Binding IsSelected, Converter={StaticResource SelectedBackgroundConverter}}">
                                             <TextBlock Text="{Binding Description}" />
