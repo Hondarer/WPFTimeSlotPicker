@@ -41,6 +41,48 @@ namespace WPFWrappedMenu.Views
         // TODO: EndTimeSlotStartTime
 
         /// <summary>
+        /// StartTimeSlotStartTime 依存関係プロパティを識別します。このフィールドは読み取り専用です。
+        /// </summary>
+        public static readonly DependencyProperty StartTimeSlotStartTimeProperty =
+            DependencyProperty.Register(nameof(StartTimeSlotStartTime), typeof(DateTime), typeof(TimeSlotPicker), new PropertyMetadata(new DateTime(1, 1, 1, 0, 0, 0)));
+
+        /// <summary>
+        /// 選択された時間帯の開始時刻を取得または設定します。
+        /// </summary>
+        public DateTime StartTimeSlotStartTime
+        {
+            get
+            {
+                return (DateTime)GetValue(StartTimeSlotStartTimeProperty);
+            }
+            set
+            {
+                SetValue(StartTimeSlotStartTimeProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// EndTimeSlotStartTime 依存関係プロパティを識別します。このフィールドは読み取り専用です。
+        /// </summary>
+        public static readonly DependencyProperty EndTimeSlotStartTimeProperty =
+            DependencyProperty.Register(nameof(EndTimeSlotStartTime), typeof(DateTime), typeof(TimeSlotPicker), new PropertyMetadata(new DateTime(1, 1, 1, 23, 30, 0)));
+
+        /// <summary>
+        /// 選択された時間帯の終了時刻を取得または設定します。
+        /// </summary>
+        public DateTime EndTimeSlotStartTime
+        {
+            get
+            {
+                return (DateTime)GetValue(EndTimeSlotStartTimeProperty);
+            }
+            set
+            {
+                SetValue(EndTimeSlotStartTimeProperty, value);
+            }
+        }
+
+        /// <summary>
         /// UserDefinedTimeSlotStartTime 依存関係プロパティを識別します。このフィールドは読み取り専用です。
         /// </summary>
         public static readonly DependencyProperty UserDefinedTimeSlotStartTimeProperty =

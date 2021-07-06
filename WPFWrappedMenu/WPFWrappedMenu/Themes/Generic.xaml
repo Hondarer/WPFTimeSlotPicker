@@ -12,6 +12,8 @@
     <conv:SelectedBackgroundConverter x:Key="SelectedBackgroundConverter" />
 
     <Style TargetType="{x:Type view:TimeSlotPicker}">
+        <Setter Property="StartTimeSlotStartTime" Value="{Binding StartTimeSlotStartTime, Mode=OneWayToSource}" />
+        <Setter Property="EndTimeSlotStartTime" Value="{Binding EndTimeSlotStartTime, Mode=OneWayToSource}" />
         <Setter Property="SelectedTimeSlotStartTime" Value="{Binding SelectedTimeSlotStartTime, Mode=TwoWay}" />
         <Setter Property="DataContext">
             <Setter.Value>

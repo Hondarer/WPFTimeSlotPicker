@@ -48,6 +48,8 @@ namespace WPFWrappedMenu.ViewModels
             }
         }
 
+        // TODO; デフォルト値をどのように与えるか。現在、次、前、任意(相対値)、および絶対値。絶対値は直接設定、その他は+-のTimeSpanか。
+
         private DateTime? _selectedTimeSlotStartTime;
 
         public DateTime? SelectedTimeSlotStartTime
@@ -89,8 +91,39 @@ namespace WPFWrappedMenu.ViewModels
             }
         }
 
-        // TODO: StartTimeSlotStartTime
-        // TODO: EndTimeSlotStartTime
+        private DateTime _startTimeSlotStartTime = new DateTime(1, 1, 1, 0, 0, 0);
+
+        public DateTime StartTimeSlotStartTime
+        {
+            get
+            {
+                return _startTimeSlotStartTime;
+            }
+            set
+            {
+                if (SetProperty(ref _startTimeSlotStartTime, TruncateDateTime(value)) == true)
+                {
+                    RefreshTimeSlotsViewModel();
+                }
+            }
+        }
+
+        private DateTime _endTimeSlotStartTime = new DateTime(1, 1, 1, 23, 30, 0);
+
+        public DateTime EndTimeSlotStartTime
+        {
+            get
+            {
+                return _endTimeSlotStartTime;
+            }
+            set
+            {
+                if (SetProperty(ref _endTimeSlotStartTime, TruncateDateTime(value)) == true)
+                {
+                    RefreshTimeSlotsViewModel();
+                }
+            }
+        }
 
         private List<TimeSlotViewModel> _timeSpans;
 
@@ -152,8 +185,18 @@ namespace WPFWrappedMenu.ViewModels
 
                     // ポップアップを閉じる
                     PopupOpen = false;
+                },
+                parameter =>
+                {
+                    if (parameter is DateTime specifyDate)
+                    {
+                        if ((StartTimeSlotStartTime <= specifyDate) && (specifyDate <= EndTimeSlotStartTime))
+                        {
+                            return true;
+                        }
+                    }
 
-                    // TODO: 選択(指定)できない条件はあるか
+                    return false;
                 });
 
             PreviousTimeSlotCommamnd = new DelegateCommand(
@@ -164,7 +207,7 @@ namespace WPFWrappedMenu.ViewModels
                         specifyTimeSlotStartTime = CurrentTimeSlotStartTime;
                     }
                     // 1/1 00:00 からさかのぼることはできない。翌日基準で 30 分さかのぼることで時間帯を算出する。
-                    SpecifyTimeSlotCommamnd.Execute(specifyTimeSlotStartTime.AddDays(1).AddMinutes(-30));
+                    SpecifyTimeSlotCommamnd.Execute(TruncateDateTime(specifyTimeSlotStartTime.AddDays(1).AddMinutes(-30)));
                 },
                 parameter =>
                 {
@@ -173,7 +216,7 @@ namespace WPFWrappedMenu.ViewModels
                         specifyTimeSlotStartTime = CurrentTimeSlotStartTime;
                     }
                     // 1/1 00:00 からさかのぼることはできない。翌日基準で 30 分さかのぼることで時間帯を算出する。
-                    return SpecifyTimeSlotCommamnd.CanExecute(specifyTimeSlotStartTime.AddDays(1).AddMinutes(-30));
+                    return SpecifyTimeSlotCommamnd.CanExecute(TruncateDateTime(specifyTimeSlotStartTime.AddDays(1).AddMinutes(-30)));
                 });
 
             NextTimeSlotCommamnd = new DelegateCommand(
@@ -216,7 +259,7 @@ namespace WPFWrappedMenu.ViewModels
             return TruncateDateTime((DateTime)dateTime);
         }
 
-        public DateTime TruncateDateTime(DateTime dateTime)
+        public static DateTime TruncateDateTime(DateTime dateTime)
         {
             // 日付情報があれば削除する
             DateTime timeOfDay = new DateTime().Add(dateTime.TimeOfDay);
@@ -257,12 +300,14 @@ namespace WPFWrappedMenu.ViewModels
                 new TimeSlotViewModel(){SpecifyTimeSlotStartTime=CurrentTimeSlotStartTime.AddMinutes(30), Description="next of current timeslot" },
                 new TimeSlotViewModel(){SpecifyTimeSlotStartTime=CurrentTimeSlotStartTime, Description="current timeslot" },
                 // 1/1 00:00 からさかのぼることはできない。翌日基準で 30 分さかのぼることで時間帯を算出する。
-                new TimeSlotViewModel(){SpecifyTimeSlotStartTime=CurrentTimeSlotStartTime.AddDays(1).AddMinutes(-30), Description="previous of current timeslot" }
+                new TimeSlotViewModel(){SpecifyTimeSlotStartTime=TruncateDateTime(CurrentTimeSlotStartTime.AddDays(1).AddMinutes(-30)), Description="previous of current timeslot" }
             };
 
             Shortcuts = shortcuts;
 
             #endregion
+
+            // TODO: 選択可能範囲を逸脱した TimeSlot が選択されている場合は、規定値に戻すなどの措置をする
 
             // 選択状態の更新
             ChangeSelectedTimeSlotCore(SelectedTimeSlotStartTime);
