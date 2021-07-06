@@ -249,7 +249,7 @@ namespace WPFWrappedMenu.ViewModels
             InvalidateTimeSlot();
         }
 
-        public DateTime? TruncateDateTime(DateTime? dateTime)
+        public static DateTime? TruncateDateTime(DateTime? dateTime)
         {
             if (dateTime == null)
             {
