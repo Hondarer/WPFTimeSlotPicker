@@ -190,9 +190,21 @@ namespace WPFWrappedMenu.ViewModels
                 {
                     if (parameter is DateTime specifyDate)
                     {
-                        if ((StartTimeSlotStartTime <= specifyDate) && (specifyDate <= EndTimeSlotStartTime))
+                        specifyDate = TruncateDateTime(specifyDate);
+
+                        if (StartTimeSlotStartTime <= EndTimeSlotStartTime)
                         {
-                            return true;
+                            if ((StartTimeSlotStartTime <= specifyDate) && (specifyDate <= EndTimeSlotStartTime))
+                            {
+                                return true;
+                            }
+                        }
+                        else
+                        {
+                            if ((specifyDate <= StartTimeSlotStartTime) && (EndTimeSlotStartTime <= specifyDate))
+                            {
+                                return true;
+                            }
                         }
                     }
 
@@ -207,7 +219,7 @@ namespace WPFWrappedMenu.ViewModels
                         specifyTimeSlotStartTime = CurrentTimeSlotStartTime;
                     }
                     // 1/1 00:00 からさかのぼることはできない。翌日基準で 30 分さかのぼることで時間帯を算出する。
-                    SpecifyTimeSlotCommamnd.Execute(TruncateDateTime(specifyTimeSlotStartTime.AddDays(1).AddMinutes(-30)));
+                    SpecifyTimeSlotCommamnd.Execute(specifyTimeSlotStartTime.AddDays(1).AddMinutes(-30));
                 },
                 parameter =>
                 {
@@ -216,7 +228,7 @@ namespace WPFWrappedMenu.ViewModels
                         specifyTimeSlotStartTime = CurrentTimeSlotStartTime;
                     }
                     // 1/1 00:00 からさかのぼることはできない。翌日基準で 30 分さかのぼることで時間帯を算出する。
-                    return SpecifyTimeSlotCommamnd.CanExecute(TruncateDateTime(specifyTimeSlotStartTime.AddDays(1).AddMinutes(-30)));
+                    return SpecifyTimeSlotCommamnd.CanExecute(specifyTimeSlotStartTime.AddDays(1).AddMinutes(-30));
                 });
 
             NextTimeSlotCommamnd = new DelegateCommand(
@@ -300,7 +312,7 @@ namespace WPFWrappedMenu.ViewModels
                 new TimeSlotViewModel(){SpecifyTimeSlotStartTime=CurrentTimeSlotStartTime.AddMinutes(30), Description="next of current timeslot" },
                 new TimeSlotViewModel(){SpecifyTimeSlotStartTime=CurrentTimeSlotStartTime, Description="current timeslot" },
                 // 1/1 00:00 からさかのぼることはできない。翌日基準で 30 分さかのぼることで時間帯を算出する。
-                new TimeSlotViewModel(){SpecifyTimeSlotStartTime=TruncateDateTime(CurrentTimeSlotStartTime.AddDays(1).AddMinutes(-30)), Description="previous of current timeslot" }
+                new TimeSlotViewModel(){SpecifyTimeSlotStartTime=CurrentTimeSlotStartTime.AddDays(1).AddMinutes(-30), Description="previous of current timeslot" }
             };
 
             Shortcuts = shortcuts;
