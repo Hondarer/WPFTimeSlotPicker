@@ -125,6 +125,29 @@ namespace WPFWrappedMenu.ViewModels
             }
         }
 
+        /// <summary>
+        /// 現在の TimeSlot を判断するオフセットを保持します。
+        /// </summary>
+        private TimeSpan _currentTimeSlotOffset = TimeSpan.Zero;
+
+        /// <summary>
+        /// 現在の TimeSlot を判断するオフセットを取得または設定します。
+        /// </summary>
+        public TimeSpan CurrentTimeSlotOffset
+        {
+            get
+            {
+                return _currentTimeSlotOffset;
+            }
+            set
+            {
+                if (SetProperty(ref _currentTimeSlotOffset, value) == true)
+                {
+                    InvalidateTimeSlot();
+                }
+            }
+        }
+
         private List<TimeSlotViewModel> _timeSpans;
 
         public List<TimeSlotViewModel> TimeSpans
@@ -287,7 +310,7 @@ namespace WPFWrappedMenu.ViewModels
 
         private void InvalidateTimeSlot()
         {
-            CurrentTimeSlotStartTime = DateTimeManager.Instance.CurrentDateTime;
+            CurrentTimeSlotStartTime = DateTimeManager.Instance.CurrentDateTime.Add(CurrentTimeSlotOffset);
         }
 
         private void ChangeSelectedTimeSlotCore(DateTime? specifyDate)

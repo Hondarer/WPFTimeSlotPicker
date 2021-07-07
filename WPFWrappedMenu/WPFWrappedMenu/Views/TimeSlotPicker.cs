@@ -37,9 +37,6 @@ namespace WPFWrappedMenu.Views
             }
         }
 
-        // TODO: StartTimeSlotStartTime
-        // TODO: EndTimeSlotStartTime
-
         /// <summary>
         /// StartTimeSlotStartTime 依存関係プロパティを識別します。このフィールドは読み取り専用です。
         /// </summary>
@@ -108,6 +105,27 @@ namespace WPFWrappedMenu.Views
         /// </summary>
         public static readonly DependencyProperty UserDefinedTimeSlotDescriptionProperty =
             DependencyProperty.Register(nameof(UserDefinedTimeSlotDescription), typeof(string), typeof(TimeSlotPicker), new PropertyMetadata(null));
+
+        /// <summary>
+        /// TodayOffset 依存関係プロパティを識別します。このフィールドは読み取り専用です。
+        /// </summary>
+        public static readonly DependencyProperty CurrentTimeSlotOffsetProperty =
+            DependencyProperty.Register(nameof(CurrentTimeSlotOffset), typeof(TimeSpan), typeof(TimeSlotPicker), new PropertyMetadata(TimeSpan.Zero));
+
+        /// <summary>
+        /// 現在の TimeSlot を判断するオフセットを取得または設定します。規定値は <see cref="TimeSpan.Zero"/> です。
+        /// </summary>
+        public TimeSpan CurrentTimeSlotOffset
+        {
+            get
+            {
+                return (TimeSpan)GetValue(CurrentTimeSlotOffsetProperty);
+            }
+            set
+            {
+                SetValue(CurrentTimeSlotOffsetProperty, value);
+            }
+        }
 
         /// <summary>
         /// ユーザー定義の時間帯の説明を取得または設定します。
