@@ -148,6 +148,36 @@ namespace WPFWrappedMenu.ViewModels
             }
         }
 
+        /// <summary>
+        /// 既定の選択 TimeSlot のオフセットを保持します。
+        /// </summary>
+        private int? _defaultSelectTimeSlotOffset = 0;
+
+        /// <summary>
+        /// 既定の選択 TimeSlot のオフセットを取得または設定します。
+        /// </summary>
+        public int? DefaultSelectTimeSlotOffset
+        {
+            get
+            {
+                return _defaultSelectTimeSlotOffset;
+            }
+            set
+            {
+                if (SetProperty(ref _defaultSelectTimeSlotOffset, value) == true)
+                {
+                    if (DefaultSelectTimeSlotOffset is int defaultSelectTimeSlotOffset)
+                    {
+                        ChangeSelectedTimeSlotCore(CurrentTimeSlotStartTime.AddMinutes(30 * defaultSelectTimeSlotOffset));
+                    }
+                    else
+                    {
+                        ChangeSelectedTimeSlotCore(null);
+                    }
+                }
+            }
+        }
+
         private List<TimeSlotViewModel> _timeSpans;
 
         public List<TimeSlotViewModel> TimeSpans
@@ -282,6 +312,15 @@ namespace WPFWrappedMenu.ViewModels
             TimeSpans = timeSpans;
 
             InvalidateTimeSlot();
+
+            if (DefaultSelectTimeSlotOffset is int defaultSelectTimeSlotOffset)
+            {
+                ChangeSelectedTimeSlotCore(CurrentTimeSlotStartTime.AddMinutes(30 * defaultSelectTimeSlotOffset));
+            }
+            else
+            {
+                ChangeSelectedTimeSlotCore(null);
+            }
         }
 
         public static DateTime? TruncateDateTime(DateTime? dateTime)

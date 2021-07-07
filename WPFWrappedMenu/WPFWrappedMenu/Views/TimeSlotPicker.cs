@@ -142,6 +142,27 @@ namespace WPFWrappedMenu.Views
             }
         }
 
+        /// <summary>
+        /// DefaultSelectTimeSlotOffset 依存関係プロパティを識別します。このフィールドは読み取り専用です。
+        /// </summary>
+        public static readonly DependencyProperty DefaultSelectTimeSlotOffsetProperty =
+            DependencyProperty.Register(nameof(DefaultSelectTimeSlotOffset), typeof(int?), typeof(TimeSlotPicker), new PropertyMetadata(0));
+
+        /// <summary>
+        /// 既定の選択 TimeSlot のオフセットを取得または設定します。規定値は <c>0</c> です。
+        /// </summary>
+        public int? DefaultSelectTimeSlotOffset
+        {
+            get
+            {
+                return (int?)GetValue(DefaultSelectTimeSlotOffsetProperty);
+            }
+            set
+            {
+                SetValue(DefaultSelectTimeSlotOffsetProperty, value);
+            }
+        }
+
         #endregion
 
         /// <summary>

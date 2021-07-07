@@ -15,6 +15,7 @@
         <Setter Property="StartTimeSlotStartTime" Value="{Binding StartTimeSlotStartTime, Mode=OneWayToSource}" />
         <Setter Property="EndTimeSlotStartTime" Value="{Binding EndTimeSlotStartTime, Mode=OneWayToSource}" />
         <Setter Property="CurrentTimeSlotOffset" Value="{Binding CurrentTimeSlotOffset, Mode=OneWayToSource}" />
+        <Setter Property="DefaultSelectTimeSlotOffset" Value="{Binding DefaultSelectTimeSlotOffset, Mode=OneWayToSource}" />
         <Setter Property="SelectedTimeSlotStartTime" Value="{Binding SelectedTimeSlotStartTime, Mode=TwoWay}" />
         <Setter Property="DataContext">
             <Setter.Value>

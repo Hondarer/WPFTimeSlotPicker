@@ -21,7 +21,31 @@
         <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
             <view:TimeSlotPicker x:Name="timeSlotPicker" />
         </StackPanel>
-        
+        <GroupBox Header="Properties" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <StackPanel>
+                <StackPanel Height="20" Orientation="Horizontal">
+                    <TextBlock Width="200" Text="SelectedTimeSlotStartTime" />
+                    <TextBlock Width="200" Text="{Binding SelectedTimeSlotStartTime, ElementName=timeSlotPicker}" />
+                </StackPanel>
+                <StackPanel Height="20" Orientation="Horizontal">
+                    <TextBlock Width="200" Text="CurrentTimeSlotOffset:" />
+                    <TextBox Width="200" HorizontalContentAlignment="Right" Text="{Binding CurrentTimeSlotOffset, ElementName=timeSlotPicker, TargetNullValue='', UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+                <StackPanel Height="20" Orientation="Horizontal">
+                    <TextBlock Width="200" Text="Start TimeSlot:" />
+                    <TextBox Width="200" Text="{Binding StartTimeSlotStartTime, ElementName=timeSlotPicker, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+                <StackPanel Height="20" Orientation="Horizontal">
+                    <TextBlock Width="200" Text="End TimeSlot:" />
+                    <TextBox Width="200" Text="{Binding EndTimeSlotStartTime, ElementName=timeSlotPicker, UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+                <StackPanel Height="20" Orientation="Horizontal">
+                    <TextBlock Width="200" Text="DefaultSelectTimeSlotOffset:" />
+                    <TextBox Width="200" HorizontalContentAlignment="Right" Text="{Binding DefaultSelectTimeSlotOffset, ElementName=timeSlotPicker, TargetNullValue='', UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
         <GroupBox Header="Curent time manager" Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel>
                 <StackPanel Height="20" Orientation="Horizontal">
@@ -32,14 +56,6 @@
                             CommandParameter="{Binding Text, ElementName=dateTime}"/>
                 </StackPanel>
                 <TextBlock Margin="200,0,0,0" HorizontalAlignment="Left" Width="200" Height="20" Text="{Binding CurrentDateTime, Source={x:Static vm:DateTimeManager.Instance}, Mode=OneWay}" />
-                <StackPanel Height="20" Orientation="Horizontal">
-                    <TextBlock Width="200" Text="Start TimeSlot:" />
-                    <TextBox Width="200" Text="{Binding StartTimeSlotStartTime, ElementName=timeSlotPicker, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
-                <StackPanel Height="20" Orientation="Horizontal">
-                    <TextBlock Width="200" Text="End TimeSlot:" />
-                    <TextBox Width="200" Text="{Binding EndTimeSlotStartTime, ElementName=timeSlotPicker, UpdateSourceTrigger=PropertyChanged}" />
-                </StackPanel>
             </StackPanel>
         </GroupBox>
 
