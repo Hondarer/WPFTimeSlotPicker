@@ -231,9 +231,9 @@ namespace WPFWrappedMenu.ViewModels
             SpecifyTimeSlotCommamnd = new DelegateCommand(
                 parameter =>
                 {
-                    if (parameter is DateTime specifyDate)
+                    if (parameter is DateTime specifyTimeSlotStartTime)
                     {
-                        ChangeSelectedTimeSlotCore(specifyDate);
+                        ChangeSelectedTimeSlotCore(specifyTimeSlotStartTime);
                     }
 
                     // ポップアップを閉じる
@@ -241,20 +241,20 @@ namespace WPFWrappedMenu.ViewModels
                 },
                 parameter =>
                 {
-                    if (parameter is DateTime specifyDate)
+                    if (parameter is DateTime specifyTimeSlotStartTime)
                     {
-                        specifyDate = TruncateDateTime(specifyDate);
+                        specifyTimeSlotStartTime = TruncateDateTime(specifyTimeSlotStartTime);
 
                         if (StartTimeSlotStartTime <= EndTimeSlotStartTime)
                         {
-                            if ((StartTimeSlotStartTime <= specifyDate) && (specifyDate <= EndTimeSlotStartTime))
+                            if ((StartTimeSlotStartTime <= specifyTimeSlotStartTime) && (specifyTimeSlotStartTime <= EndTimeSlotStartTime))
                             {
                                 return true;
                             }
                         }
                         else
                         {
-                            if ((specifyDate <= StartTimeSlotStartTime) && (EndTimeSlotStartTime <= specifyDate))
+                            if ((specifyTimeSlotStartTime <= StartTimeSlotStartTime) && (EndTimeSlotStartTime <= specifyTimeSlotStartTime))
                             {
                                 return true;
                             }
