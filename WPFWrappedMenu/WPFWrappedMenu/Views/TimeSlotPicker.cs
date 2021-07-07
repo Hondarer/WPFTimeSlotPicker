@@ -107,7 +107,22 @@ namespace WPFWrappedMenu.Views
             DependencyProperty.Register(nameof(UserDefinedTimeSlotDescription), typeof(string), typeof(TimeSlotPicker), new PropertyMetadata(null));
 
         /// <summary>
-        /// TodayOffset 依存関係プロパティを識別します。このフィールドは読み取り専用です。
+        /// ユーザー定義の時間帯の説明を取得または設定します。
+        /// </summary>
+        public string UserDefinedTimeSlotDescription
+        {
+            get
+            {
+                return (string)GetValue(UserDefinedTimeSlotDescriptionProperty);
+            }
+            set
+            {
+                SetValue(UserDefinedTimeSlotDescriptionProperty, value);
+            }
+        }
+
+        /// <summary>
+        /// CurrentTimeSlotOffset 依存関係プロパティを識別します。このフィールドは読み取り専用です。
         /// </summary>
         public static readonly DependencyProperty CurrentTimeSlotOffsetProperty =
             DependencyProperty.Register(nameof(CurrentTimeSlotOffset), typeof(TimeSpan), typeof(TimeSlotPicker), new PropertyMetadata(TimeSpan.Zero));
@@ -124,21 +139,6 @@ namespace WPFWrappedMenu.Views
             set
             {
                 SetValue(CurrentTimeSlotOffsetProperty, value);
-            }
-        }
-
-        /// <summary>
-        /// ユーザー定義の時間帯の説明を取得または設定します。
-        /// </summary>
-        public string UserDefinedTimeSlotDescription
-        {
-            get
-            {
-                return (string)GetValue(UserDefinedTimeSlotDescriptionProperty);
-            }
-            set
-            {
-                SetValue(UserDefinedTimeSlotDescriptionProperty, value);
             }
         }
 

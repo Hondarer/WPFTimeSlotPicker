@@ -14,7 +14,7 @@
 
         <Grid.RowDefinitions>
             <RowDefinition />
-            <RowDefinition />
+            <RowDefinition Height="Auto" />
             <RowDefinition />
         </Grid.RowDefinitions>
 
@@ -24,24 +24,32 @@
         <GroupBox Header="Properties" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
             <StackPanel>
                 <StackPanel Height="20" Orientation="Horizontal">
-                    <TextBlock Width="200" Text="SelectedTimeSlotStartTime" />
-                    <TextBlock Width="200" Text="{Binding SelectedTimeSlotStartTime, ElementName=timeSlotPicker}" />
+                    <TextBlock Width="250" Text="SelectedTimeSlotStartTime:" />
+                    <TextBlock Width="200" Text="{Binding SelectedTimeSlotStartTime, TargetNullValue='(null)', ElementName=timeSlotPicker}" />
                 </StackPanel>
                 <StackPanel Height="20" Orientation="Horizontal">
-                    <TextBlock Width="200" Text="CurrentTimeSlotOffset:" />
+                    <TextBlock Width="250" Text="CurrentTimeSlotOffset:" />
                     <TextBox Width="200" HorizontalContentAlignment="Right" Text="{Binding CurrentTimeSlotOffset, ElementName=timeSlotPicker, TargetNullValue='', UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
                 <StackPanel Height="20" Orientation="Horizontal">
-                    <TextBlock Width="200" Text="Start TimeSlot:" />
+                    <TextBlock Width="250" Text="Start TimeSlot:" />
                     <TextBox Width="200" Text="{Binding StartTimeSlotStartTime, ElementName=timeSlotPicker, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
                 <StackPanel Height="20" Orientation="Horizontal">
-                    <TextBlock Width="200" Text="End TimeSlot:" />
+                    <TextBlock Width="250" Text="End TimeSlot:" />
                     <TextBox Width="200" Text="{Binding EndTimeSlotStartTime, ElementName=timeSlotPicker, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
                 <StackPanel Height="20" Orientation="Horizontal">
-                    <TextBlock Width="200" Text="DefaultSelectTimeSlotOffset:" />
+                    <TextBlock Width="250" Text="DefaultSelectTimeSlotOffset:" />
                     <TextBox Width="200" HorizontalContentAlignment="Right" Text="{Binding DefaultSelectTimeSlotOffset, ElementName=timeSlotPicker, TargetNullValue='', UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+                <StackPanel Height="20" Orientation="Horizontal">
+                    <TextBlock Width="250" Text="UserDefinedTimeSlotStartTime:" />
+                    <TextBox Width="200" Text="{Binding UserDefinedTimeSlotStartTime, ElementName=timeSlotPicker, TargetNullValue='', UpdateSourceTrigger=PropertyChanged}" />
+                </StackPanel>
+                <StackPanel Height="20" Orientation="Horizontal">
+                    <TextBlock Width="250" Text="UserDefinedTimeSlotDescription:" />
+                    <TextBox Width="200" Text="{Binding UserDefinedTimeSlotDescription, ElementName=timeSlotPicker, UpdateSourceTrigger=PropertyChanged}" />
                 </StackPanel>
             </StackPanel>
         </GroupBox>

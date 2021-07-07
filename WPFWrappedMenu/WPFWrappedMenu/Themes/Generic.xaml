@@ -17,6 +17,8 @@
         <Setter Property="CurrentTimeSlotOffset" Value="{Binding CurrentTimeSlotOffset, Mode=OneWayToSource}" />
         <Setter Property="DefaultSelectTimeSlotOffset" Value="{Binding DefaultSelectTimeSlotOffset, Mode=OneWayToSource}" />
         <Setter Property="SelectedTimeSlotStartTime" Value="{Binding SelectedTimeSlotStartTime, Mode=TwoWay}" />
+        <Setter Property="UserDefinedTimeSlotStartTime" Value="{Binding UserDefinedTimeSlotStartTime, Mode=OneWayToSource}" />
+        <Setter Property="UserDefinedTimeSlotDescription" Value="{Binding UserDefinedTimeSlotDescription, Mode=OneWayToSource}" />
         <Setter Property="DataContext">
             <Setter.Value>
                 <vm:TimeSlotPickerViewModel />
@@ -109,6 +111,10 @@
 
                                 <Popup.Resources>
 
+                                    <DataTemplate x:Key="FillerTemplate">
+                                        <Border Height="16" />
+                                    </DataTemplate>
+
                                     <DataTemplate x:Key="PickButtonTemplate">
                                         <ToggleButton Content="{Binding SpecifyTimeSlotStartTime, Converter={StaticResource TimeToTimeSlotConverter}}" IsChecked="{Binding IsSelected}"
                                                       Command="{Binding DataContext.SpecifyTimeSlotCommamnd, RelativeSource={RelativeSource FindAncestor, AncestorType=Popup}}"
@@ -160,8 +166,12 @@
                                         </ItemsControl>
 
                                         <ItemsControl ItemsSource="{Binding Shortcuts}" x:Name="PART_shortcutPanel"
-                                                      ItemTemplate="{StaticResource ShortcutButtonTemplate}"
                                                       Grid.Column="1" Margin="4">
+                                            <ItemsControl.ItemTemplateSelector>
+                                                <view:TimeSlotPickerTemplateSelector
+                                                    FillerTemplate="{StaticResource FillerTemplate}"
+                                                    ShortcutButtonTemplate="{StaticResource ShortcutButtonTemplate}" />
+                                            </ItemsControl.ItemTemplateSelector>
                                             <ItemsControl.ItemsPanel>
                                                 <ItemsPanelTemplate>
                                                     <StackPanel />

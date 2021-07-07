@@ -13,7 +13,7 @@ namespace WPFWrappedMenu.ViewModels
         {
             public string Description { get; set; }
 
-            public DateTime SpecifyTimeSlotStartTime { get; set; }
+            public DateTime? SpecifyTimeSlotStartTime { get; set; }
 
             private bool _isSelected = false;
 
@@ -126,6 +126,52 @@ namespace WPFWrappedMenu.ViewModels
         }
 
         /// <summary>
+        /// ユーザー定義の時間帯の開始時刻を保持します。
+        /// </summary>
+        private DateTime? _userDefinedTimeSlotStartTime = null;
+
+        /// <summary>
+        /// ユーザー定義の時間帯の開始時刻を取得または設定します。
+        /// </summary>
+        public DateTime? UserDefinedTimeSlotStartTime
+        {
+            get
+            {
+                return _userDefinedTimeSlotStartTime;
+            }
+            set
+            {
+                if (SetProperty(ref _userDefinedTimeSlotStartTime, TruncateDateTime(value)) == true)
+                {
+                    RefreshTimeSlotsViewModel();
+                }
+            }
+        }
+
+        /// <summary>
+        /// ユーザー定義の時間帯の説明を保持します。
+        /// </summary>
+        private string _userDefinedTimeSlotDescription = null;
+
+        /// <summary>
+        /// ユーザー定義の時間帯の説明を取得または設定します。
+        /// </summary>
+        public string UserDefinedTimeSlotDescription
+        {
+            get
+            {
+                return _userDefinedTimeSlotDescription;
+            }
+            set
+            {
+                if (SetProperty(ref _userDefinedTimeSlotDescription, value) == true)
+                {
+                    RefreshTimeSlotsViewModel();
+                }
+            }
+        }
+
+        /// <summary>
         /// 現在の TimeSlot を判断するオフセットを保持します。
         /// </summary>
         private TimeSpan _currentTimeSlotOffset = TimeSpan.Zero;
@@ -231,6 +277,11 @@ namespace WPFWrappedMenu.ViewModels
             SpecifyTimeSlotCommamnd = new DelegateCommand(
                 parameter =>
                 {
+                    if (parameter == null)
+                    {
+                        ChangeSelectedTimeSlotCore(null);
+                    }
+
                     if (parameter is DateTime specifyTimeSlotStartTime)
                     {
                         ChangeSelectedTimeSlotCore(specifyTimeSlotStartTime);
@@ -241,6 +292,11 @@ namespace WPFWrappedMenu.ViewModels
                 },
                 parameter =>
                 {
+                    if (parameter == null)
+                    {
+                        return true;
+                    }
+
                     if (parameter is DateTime specifyTimeSlotStartTime)
                     {
                         specifyTimeSlotStartTime = TruncateDateTime(specifyTimeSlotStartTime);
@@ -376,6 +432,12 @@ namespace WPFWrappedMenu.ViewModels
                 // 1/1 00:00 からさかのぼることはできない。翌日基準で 30 分さかのぼることで時間帯を算出する。
                 new TimeSlotViewModel(){SpecifyTimeSlotStartTime=CurrentTimeSlotStartTime.AddDays(1).AddMinutes(-30), Description="previous of current timeslot" }
             };
+
+            if (!string.IsNullOrEmpty(UserDefinedTimeSlotDescription))
+            {
+                shortcuts.Add(null);
+                shortcuts.Add(new TimeSlotViewModel() { SpecifyTimeSlotStartTime = UserDefinedTimeSlotStartTime, Description = UserDefinedTimeSlotDescription });
+            }
 
             Shortcuts = shortcuts;
 
