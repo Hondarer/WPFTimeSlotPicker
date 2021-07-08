@@ -162,9 +162,17 @@ namespace WPFWrappedMenu.ViewModels
             }
             set
             {
+                DateTime? oldValue = _userDefinedTimeSlotStartTime;
                 if (SetProperty(ref _userDefinedTimeSlotStartTime, TruncateDateTime(value)) == true)
                 {
                     RefreshTimeSlotsViewModel();
+
+                    // null からの設定時、選択中 TimeSlot を変更する。
+                    // 非null からの設定時は変更しない。
+                    if (oldValue == null)
+                    {
+                        ChangeSelectedTimeSlotCore(UserDefinedTimeSlotStartTime);
+                    }
                 }
             }
         }
@@ -463,8 +471,6 @@ namespace WPFWrappedMenu.ViewModels
             Shortcuts = shortcuts;
 
             #endregion
-
-            // TODO: 選択可能範囲を逸脱した TimeSlot が選択されている場合は、規定値に戻すなどの措置をする
 
             // 選択状態の更新
             ChangeSelectedTimeSlotCore(SelectedTimeSlotStartTime);
