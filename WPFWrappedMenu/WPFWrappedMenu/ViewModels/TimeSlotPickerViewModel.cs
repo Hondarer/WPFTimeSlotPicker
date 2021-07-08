@@ -48,8 +48,6 @@ namespace WPFWrappedMenu.ViewModels
             }
         }
 
-        // TODO; デフォルト値をどのように与えるか。現在、次、前、任意(相対値)、および絶対値。絶対値は直接設定、その他は+-のTimeSpanか。
-
         private DateTime? _selectedTimeSlotStartTime;
 
         public DateTime? SelectedTimeSlotStartTime
@@ -84,6 +82,29 @@ namespace WPFWrappedMenu.ViewModels
                     // View を元の値に戻すために、PropertyChanged イベントを発行する
                     OnPropertyChanged();
                     return;
+                }
+
+                parsedDateTime = TruncateDateTime(parsedDateTime);
+
+                if (StartTimeSlotStartTime <= EndTimeSlotStartTime)
+                {
+                    if ((StartTimeSlotStartTime > parsedDateTime) || (parsedDateTime > EndTimeSlotStartTime))
+                    {
+                        // 無効な値の場合にはソースを更新しない
+                        // View を元の値に戻すために、PropertyChanged イベントを発行する
+                        OnPropertyChanged();
+                        return;
+                    }
+                }
+                else
+                {
+                    if ((parsedDateTime > EndTimeSlotStartTime) && (StartTimeSlotStartTime > parsedDateTime))
+                    {
+                        // 無効な値の場合にはソースを更新しない
+                        // View を元の値に戻すために、PropertyChanged イベントを発行する
+                        OnPropertyChanged();
+                        return;
+                    }
                 }
 
                 // 有意であれば設定
@@ -310,7 +331,7 @@ namespace WPFWrappedMenu.ViewModels
                         }
                         else
                         {
-                            if ((specifyTimeSlotStartTime <= StartTimeSlotStartTime) && (EndTimeSlotStartTime <= specifyTimeSlotStartTime))
+                            if ((specifyTimeSlotStartTime <= EndTimeSlotStartTime) || (StartTimeSlotStartTime <= specifyTimeSlotStartTime))
                             {
                                 return true;
                             }
